@@ -1,5 +1,7 @@
 package testcases.register;
 
+import Base.BaseTest;
+import drivers.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,7 +23,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-public class Register01_Verify_Valid_Register {
+public class Register01_Verify_Valid_Register extends BaseTest {
     @Test
 
 //    public void test_valid_register() {
@@ -34,29 +36,31 @@ public class Register01_Verify_Valid_Register {
 //    }
 
     public void test_valid_register() {
-        ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"}); // tat automation bar
-        options.setExperimentalOption("useAutomationExtension", false);             // tat automation bar
+        WebDriver driver = DriverFactory.getDriver();
+        driver.get("https://demo1.cybersoft.edu.vn");
+//        ChromeOptions options = new ChromeOptions();
+//        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"}); // tat automation bar
+//        options.setExperimentalOption("useAutomationExtension", false);             // tat automation bar
 
-        WebDriver chromeDriver = new ChromeDriver(options);
-        chromeDriver.manage().window().maximize(); // maximize windows
-        chromeDriver.get("https://demo1.cybersoft.edu.vn"); // home page
+//        WebDriver chromeDriver = new ChromeDriver(options);
+        driver.manage().window().maximize(); // maximize windows
+//        chromeDriver.get("https://demo1.cybersoft.edu.vn"); // home page
 
         //khai bao WebDriverWait
 //        WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(30));
 
         //khai bao FluentWait
-        FluentWait<WebDriver> wait = new FluentWait<>(chromeDriver);
+        FluentWait<WebDriver> wait = new FluentWait<>(driver);
         wait.withTimeout(Duration.ofSeconds(30)); // set time out chờ
         wait.pollingEvery(Duration.ofSeconds(1)); // sau bao lâu kiểm tra lại
         wait.ignoring(NoSuchElementException.class); // khai báo exception bỏ qua
 
 
 //        Khai bao page object model
-        HomePage homePage = new HomePage(chromeDriver);
-        RegisterPage registerPage = new RegisterPage(chromeDriver);
-        LoginPage loginPage = new LoginPage(chromeDriver);
-        TopBarNavigation topBarNavigation = new TopBarNavigation(chromeDriver);
+        HomePage homePage = new HomePage(driver);
+        RegisterPage registerPage = new RegisterPage(driver);
+        LoginPage loginPage = new LoginPage(driver);
+        TopBarNavigation topBarNavigation = new TopBarNavigation(driver);
 
         //Pre-condition: User is on Register page
         //Click on 'Đăng Ký' link on the top right
@@ -93,7 +97,7 @@ public class Register01_Verify_Valid_Register {
 //        By byLblRegisterMessage = By.id("swal2-title");
 //       WebElement lblWait = wait.until(ExpectedConditions.visibilityOfElementLocated(byLblRegisterMessage));
 //       String getTextRecord = lblWait.getText();
-        CommonDialog commonDialog = new CommonDialog(chromeDriver);
+        CommonDialog commonDialog = new CommonDialog(driver);
         String getTextRecord = commonDialog.getMsg();
         Assert.assertEquals(getTextRecord, "Đăng ký thành công", "Register test message fail!");
 
@@ -130,6 +134,6 @@ public class Register01_Verify_Valid_Register {
 //        prefs.put("profile.password_manager_enabled", false);
 //        options.setExperimentalOption("prefs", prefs);
 
-        chromeDriver.quit(); // Close browser & Quit chromedriver process
+//        driver.quit(); // Close browser & Quit chromedriver process
     }
 }
